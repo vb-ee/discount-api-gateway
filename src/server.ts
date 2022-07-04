@@ -1,1 +1,3 @@
-console.log('hi from api-gateway')
+import { startApp } from './startApp'
+
+startApp()
