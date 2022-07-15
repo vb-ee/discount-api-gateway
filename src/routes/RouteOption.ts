@@ -1,6 +1,7 @@
 export interface RouteOption {
     url: string
     auth: boolean
+    forAdmin: boolean
     authRefresh?: boolean
     options: {
         target: string

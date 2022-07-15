@@ -2,7 +2,7 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import express, { NextFunction, Request, Response } from 'express'
 import morgan from 'morgan'
-import { setupAuth, setupRoutes } from './middleware'
+import { setupAuth, setupPermission, setupRoutes } from './middleware'
 import { authRoutes, usersRoutes } from './routes'
 import { accessEnv } from './utils'
 
@@ -17,7 +17,8 @@ export const startApp = () => {
     app.use(cors())
     app.use(morgan('dev'))
 
-    // setupAuth(app, routeConfigs)
+    setupAuth(app, routeConfigs)
+    setupPermission(app, routeConfigs)
     setupRoutes(app, routeConfigs)
 
     app.use(bodyParser.json())
