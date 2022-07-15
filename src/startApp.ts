@@ -2,21 +2,25 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import express, { NextFunction, Request, Response } from 'express'
 import morgan from 'morgan'
-import { setupRoutes } from './middleware'
+import { setupAuth, setupRoutes } from './middleware'
 import { authRoutes, usersRoutes } from './routes'
-import { accessEnv } from './utils/accessEnvs'
+import { accessEnv } from './utils'
 
 const routeConfigs = [...authRoutes, ...usersRoutes]
 const port = parseInt(accessEnv('PORT', '7070'))
+
+console.log(routeConfigs)
 
 export const startApp = () => {
     const app = express()
 
     app.use(cors())
     app.use(morgan('dev'))
-    app.use(bodyParser.json())
 
+    // setupAuth(app, routeConfigs)
     setupRoutes(app, routeConfigs)
+
+    app.use(bodyParser.json())
 
     app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
         return res.status(500).send({ msg: err.message })

@@ -11,7 +11,7 @@ export const authRoutes: RouteOption[] = [
             target: `${usersServiceUri}`,
             changeOrigin: true,
             pathRewrite: {
-                '^/signup': ''
+                '^/signup': '/signup'
             }
         }
     },
@@ -22,7 +22,7 @@ export const authRoutes: RouteOption[] = [
             target: `${usersServiceUri}`,
             changeOrigin: true,
             pathRewrite: {
-                '^/login': ''
+                '^/login': '/login'
             }
         }
     },
@@ -33,18 +33,19 @@ export const authRoutes: RouteOption[] = [
             target: `${usersServiceUri}`,
             changeOrigin: true,
             pathRewrite: {
-                '^/logout': ''
+                '^/logout': '/logout'
             }
         }
     },
     {
         url: '/token',
         auth: false,
+        authRefresh: true,
         options: {
             target: `${usersServiceUri}`,
             changeOrigin: true,
             pathRewrite: {
-                '^/token': ''
+                '^/token': '/token'
             }
         }
     }

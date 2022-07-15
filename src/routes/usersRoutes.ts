@@ -1,4 +1,4 @@
-import { accessEnv } from '../utils/accessEnvs'
+import { accessEnv } from '../utils'
 import { RouteOption } from './RouteOption'
 
 const usersServiceUri = accessEnv('USERS_SERVICE_URI')
@@ -22,7 +22,7 @@ export const usersRoutes: RouteOption[] = [
             target: `${usersServiceUri}`,
             changeOrigin: true,
             pathRewrite: {
-                '^/users/:userId': '/'
+                '^/users/:userId': '/users/:userId'
             }
         }
     }
