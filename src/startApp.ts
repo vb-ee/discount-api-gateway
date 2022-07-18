@@ -5,6 +5,8 @@ import morgan from 'morgan'
 import { setupAuth, setupPermission, setupRoutes } from './middleware'
 import { authRoutes, usersRoutes } from './routes'
 import { accessEnv } from './utils'
+import swaggerUi from 'swagger-ui-express'
+import swaggerDoc from './openapi.json'
 
 const routeConfigs = [...authRoutes, ...usersRoutes]
 const port = parseInt(accessEnv('PORT', '7070'))
@@ -16,6 +18,7 @@ export const startApp = () => {
 
     app.use(cors())
     app.use(morgan('dev'))
+    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc))
 
     setupAuth(app, routeConfigs)
     setupPermission(app, routeConfigs)
