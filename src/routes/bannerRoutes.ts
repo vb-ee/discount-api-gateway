@@ -1,30 +1,30 @@
 import { accessEnv } from '../utils'
 import { RouteOption } from './RouteOption'
 
-const usersServiceUri = accessEnv('USERS_SERVICE_URI')
+const bannersServiceUri = accessEnv('BANNERS_SERVICE_URI')
 
-export const usersRoutes: RouteOption[] = [
+export const bannerRoutes: RouteOption[] = [
     {
-        url: '/users',
+        url: '/banners',
         auth: true,
         forAdmin: true,
         options: {
-            target: `${usersServiceUri}`,
+            target: `${bannersServiceUri}`,
             changeOrigin: true,
             pathRewrite: {
-                '^/users': '/users'
+                '^/banners': '/banners'
             }
         }
     },
     {
-        url: '/users/:userId',
+        url: '/banners/:bannerId',
         auth: true,
         forAdmin: true,
         options: {
-            target: `${usersServiceUri}`,
+            target: `${bannersServiceUri}`,
             changeOrigin: true,
             pathRewrite: {
-                '^/users/:userId': '/users/:userId'
+                '^/banners/:bannerId': '/banners/:bannerId'
             }
         }
     }

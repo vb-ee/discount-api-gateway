@@ -3,15 +3,13 @@ import cors from 'cors'
 import express, { NextFunction, Request, Response } from 'express'
 import morgan from 'morgan'
 import { setupAuth, setupPermission, setupRoutes } from './middleware'
-import { authRoutes, usersRoutes } from './routes'
+import { authRoutes, userRoutes, bannerRoutes } from './routes'
 import { accessEnv } from './utils'
 import swaggerUi from 'swagger-ui-express'
 import swaggerDoc from './openapi.json'
 
-const routeConfigs = [...authRoutes, ...usersRoutes]
+const routeConfigs = [...authRoutes, ...userRoutes, ...bannerRoutes]
 const port = parseInt(accessEnv('PORT', '7070'))
-
-console.log(routeConfigs)
 
 export const startApp = () => {
     const app = express()
