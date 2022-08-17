@@ -1,1870 +1,2418 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-        "title": "Discounting Platform",
-        "description": "API Documentation for Discounting Platform",
-        "version": "1.0.0"
-    },
-    "servers": [
-        {
-            "url": "http://localhost:7070/",
-            "description": "Local Development Server"
-        }
-    ],
-    "components": {
-        "securitySchemes": {
-            "bearerAccess": {
-                "type": "http",
-                "scheme": "bearer",
-                "bearerFormat": "JWT"
-            },
-            "bearerRefresh": {
-                "type": "http",
-                "scheme": "bearer",
-                "bearerFormat": "JWT"
-            }
-        },
-        "schemas": {
-            "Location": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "description": "Auto generated on the server",
-                        "example": 8
-                    },
-                    "nameTm": {
-                        "type": "string",
-                        "description": "Location name in turkmen",
-                        "example": "Aşgabat"
-                    },
-                    "nameRu": {
-                        "type": "string",
-                        "description": "Location name in russian",
-                        "example": "Ашхабад"
-                    },
-                    "nameEn": {
-                        "type": "string",
-                        "description": "Location name in english",
-                        "example": "Ashgabat"
-                    }
-                },
-                "required": ["id", "nameTm", "nameRu", "nameEn"]
-            },
-            "Language": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "description": "Auto generated on the server",
-                        "example": 2
-                    },
-                    "languageTm": {
-                        "type": "string",
-                        "description": "Language name in turkmen",
-                        "example": "Inlis dili"
-                    },
-                    "languageRu": {
-                        "type": "string",
-                        "description": "Language name in russian",
-                        "example": "Английский"
-                    },
-                    "languageEn": {
-                        "type": "string",
-                        "description": "Language name in english",
-                        "example": "English"
-                    }
-                },
-                "required": ["id", "languageTm", "languageRu", "languageEn"]
-            },
-            "User": {
-                "type": "object",
-                "properties": {
-                    "uuid": {
-                        "type": "string",
-                        "format": "uuid",
-                        "example": "123e4567-e89b-12d3-a456-426614174000",
-                        "description": "Auto generated on the server"
-                    },
-                    "email": {
-                        "type": "string",
-                        "format": "email",
-                        "example": "test@example.com"
-                    },
-                    "phone": {
-                        "type": "string",
-                        "example": "61234567"
-                    },
-                    "password": {
-                        "type": "string",
-                        "format": "password",
-                        "example": "test123"
-                    },
-                    "createdDate": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2017-07-21T17:32:28Z",
-                        "description": "Auto generated on the server"
-                    }
-                },
-                "required": [
-                    "uuid",
-                    "email",
-                    "phone",
-                    "password",
-                    "createdDate"
-                ]
-            },
-            "PersonalInfo": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "description": "Auto generated on the server",
-                        "example": 23
-                    },
-                    "firstname": {
-                        "type": "string",
-                        "example": "Michael"
-                    },
-                    "lastname": {
-                        "type": "string",
-                        "example": "Jackson"
-                    },
-                    "gender": {
-                        "type": "string",
-                        "description": "Has to be one of the following strings: 'male' or 'female'",
-                        "example": "male"
-                    },
-                    "birthdate": {
-                        "type": "string",
-                        "format": "date",
-                        "example": "2017-07-21"
-                    },
-                    "aboutMe": {
-                        "type": "string",
-                        "description": "Description about the user (text)"
-                    },
-                    "imageUrl": {
-                        "type": "string",
-                        "example": "http://hostname/images/image.jpg"
-                    },
-                    "userUuid": {
-                        "type": "string",
-                        "format": "uuid",
-                        "description": "Assigned on the server",
-                        "example": "123e4567-e89b-12d3-a456-426614174000"
-                    }
-                }
-            },
-            "UserSettings": {
-                "type": "object",
-                "properties": {
-                    "locationId": {
-                        "type": "integer",
-                        "description": "Users location id",
-                        "example": 4
-                    },
-                    "languageId": {
-                        "type": "integer",
-                        "description": "User Interface Language id",
-                        "example": 2
-                    },
-                    "userUuid": {
-                        "type": "string",
-                        "format": "uuid",
-                        "description": "Assigned on the server",
-                        "example": "123e4567-e89b-12d3-a456-426614174000"
-                    }
-                }
-            },
-            "Tokens": {
-                "type": "object",
-                "properties": {
-                    "accessToken": {
-                        "type": "string",
-                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-                    },
-                    "refreshToken": {
-                        "type": "string",
-                        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-                    }
-                }
-            },
-            "Banner": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "description": "Auto generated on the server",
-                        "example": 7
-                    },
-                    "title": {
-                        "type": "string",
-                        "description": "Title or the description of the banner",
-                        "example": "This is advertisement banner"
-                    },
-                    "imageUrl": {
-                        "type": "string",
-                        "example": "http://hostname/images/image.jpg"
-                    }
-                },
-                "required": ["id", "title", "imageurl"]
-            },
-            "Section": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "description": "Auto generated on the server",
-                        "example": 20
-                    },
-                    "title": {
-                        "type": "string",
-                        "description": "Name of the section",
-                        "example": "Popular"
-                    }
-                },
-                "required": ["id", "title"]
-            },
-            "Category": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "description": "Auto generated on the server",
-                        "example": 10
-                    },
-                    "title": {
-                        "type": "string",
-                        "description": "Name of the category",
-                        "example": "Job and vacancies"
-                    },
-                    "iconUrl": {
-                        "type": "string",
-                        "example": "http://hostname/images/image.jpg"
-                    },
-                    "bigIconUrl": {
-                        "type": "string",
-                        "description": "Urls for big icons",
-                        "example": "http://hostname/images/image.jpg"
-                    },
-                    "color": {
-                        "type": "string",
-                        "description": "Background color of the icon in hex",
-                        "example": "#deeb34"
-                    },
-                    "bigColor": {
-                        "type": "string",
-                        "description": "Background color of the big icon in hex",
-                        "example": "#deeb34"
-                    }
-                },
-                "required": [
-                    "id",
-                    "title",
-                    "iconUrl",
-                    "bigIconUrl",
-                    "color",
-                    "bigColor"
-                ]
-            },
-            "Discount": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer",
-                        "description": "Auto generated on the server",
-                        "example": 12
-                    },
-                    "title": {
-                        "type": "string",
-                        "description": "Name or the description of the discount",
-                        "example": "Lorem Beauty Salon"
-                    },
-                    "imageUrl": {
-                        "type": "string",
-                        "example": "http://hostname/images/image.jpg"
-                    },
-                    "disountAmount": {
-                        "type": "number",
-                        "format": "float",
-                        "description": "The amount of discount in percent",
-                        "example": 15.99
-                    },
-                    "quantity": {
-                        "type": "integer",
-                        "description": "The quantity of the given discount",
-                        "example": 11
-                    },
-                    "expiryDate": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2017-07-21T17:32:28Z"
-                    },
-                    "createdDate": {
-                        "type": "string",
-                        "format": "date-time",
-                        "example": "2017-07-21T17:32:28Z"
-                    },
-                    "sectionId": {
-                        "type": "integer",
-                        "description": "The section id that discount belongs to",
-                        "example": 3
-                    },
-                    "categoryId": {
-                        "type": "integer",
-                        "description": "The category id that discount belongs to",
-                        "example": 4
-                    }
-                },
-                "required": [
-                    "id",
-                    "title",
-                    "imageUrl",
-                    "discountAmount",
-                    "quantity",
-                    "expiryDate",
-                    "createdDate",
-                    "sectionId",
-                    "categoryId"
-                ]
-            },
-            "Unauthorized": {
-                "type": "object",
-                "properties": {
-                    "message": {
-                        "type": "string",
-                        "description": "Unauthorization Message",
-                        "example": "Unauthorized"
-                    }
-                }
-            },
-            "NotPermitted": {
-                "type": "object",
-                "properties": {
-                    "message": {
-                        "type": "string",
-                        "description": "Unauthorization Message",
-                        "example": "Permission denied to this endpoint"
-                    }
-                }
-            },
-            "NotFound": {
-                "type": "object",
-                "properties": {
-                    "message": {
-                        "type": "string",
-                        "description": "Entity Not Found in the database",
-                        "example": "Entity Not Found"
-                    }
-                }
-            },
-            "BadRequest": {
-                "type": "object",
-                "properties": {
-                    "message": {
-                        "type": "string",
-                        "description": "Bad Request Object",
-                        "example": "Malformed Request"
-                    }
-                }
-            },
-            "ServerError": {
-                "type": "object",
-                "properties": {
-                    "message": {
-                        "type": "string",
-                        "description": "Internal Server Error",
-                        "example": "Internal Server Error"
-                    }
-                }
-            }
-        }
-    },
-    "tags": [
-        {
-            "name": "Authentication",
-            "description": "API endpoints for authenticating the user"
-        },
-        {
-            "name": "Users",
-            "description": "API endpoints for managing users"
-        },
-        {
-            "name": "Banners",
-            "description": "API endpoints for banners"
-        },
-        {
-            "name": "Sections",
-            "description": "API endpoints for sections"
-        },
-        {
-            "name": "Categories",
-            "description": "API endpoints for categories"
-        },
-        {
-            "name": "Discounts",
-            "description": "API endpoints for disounts"
-        },
-        {
-            "name": "Locations",
-            "description": "API endpoints for locations"
-        },
-        {
-            "name": "Languages",
-            "description": "API endpoints for languages"
-        }
-    ],
-    "paths": {
-        "/signup": {
-            "post": {
-                "description": "Registers a new user",
-                "tags": ["Authentication"],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/User"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "User created succesfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "allOf": [
-                                        {
-                                            "type": "object",
-                                            "properties": {
-                                                "user": {
-                                                    "$ref": "#/components/schemas/User"
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "$ref": "#/components/schemas/Tokens"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "User already exists",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BadRequest"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ServerError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/login": {
-            "post": {
-                "description": "Logs in the User",
-                "tags": ["Authentication"],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/User"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "User sucessfully logged in",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "allOf": [
-                                        {
-                                            "type": "object",
-                                            "properties": {
-                                                "user": {
-                                                    "$ref": "#/components/schemas/User"
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "$ref": "#/components/schemas/Tokens"
-                                        }
-                                    ]
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Unauthorized"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ServerError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/token": {
-            "post": {
-                "description": "Returns new access token",
-                "tags": ["Authentication"],
-                "security": [
-                    {
-                        "bearerRefresh": []
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Access token returned successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "accessToken": {
-                                            "type": "string",
-                                            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Unauthorized"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotFound"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ServerError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/logout": {
-            "post": {
-                "description": "Logs out the user from the app",
-                "tags": ["Authentication"],
-                "security": [
-                    {
-                        "bearerAccess": []
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "User successfully logged out",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "User successfully logged out"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Unauthorized"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotFound"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ServerError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/users": {
-            "get": {
-                "description": "Returns the list of users",
-                "tags": ["Users"],
-                "security": [
-                    {
-                        "bearerAccess": []
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Users returned sucessfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/User"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Unauthorized"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Not Permitted to this route",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotPermitted"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ServerError"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "Creates the new user",
-                "tags": ["Users"],
-                "security": [
-                    {
-                        "bearerAccess": []
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/User"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "User registered successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/User"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "User already exists",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BadRequest"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Unauthorized"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Not Permitted to this route",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotPermitted"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ServerError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/users/{userUuid}": {
-            "get": {
-                "description": "Returns the user by uuid",
-                "tags": ["Users"],
-                "security": [
-                    {
-                        "bearerAccess": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "userUuid",
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        },
-                        "required": true,
-                        "description": "The universal unique identifier of the user"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "User returned succesfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/User"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Unauthorized"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Not Permitted to this route",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotPermitted"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotFound"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ServerError"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "put": {
-                "description": "Updates the user",
-                "tags": ["Users"],
-                "security": [
-                    {
-                        "bearerAccess": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "userUuid",
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        },
-                        "required": true,
-                        "description": "The universal unique identifier of the user"
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/User"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "204": {
-                        "description": "User updated successfully"
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Unauthorized"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Not Permitted to this route",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotPermitted"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotFound"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ServerError"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "description": "Deletes the user",
-                "tags": ["Users"],
-                "security": [
-                    {
-                        "bearerAccess": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "userUuid",
-                        "schema": {
-                            "type": "string",
-                            "format": "uuid"
-                        },
-                        "required": true,
-                        "description": "The universal unique identifier of the user"
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "User deleted successfully"
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Unauthorized"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Not Permitted to this route",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotPermitted"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "User Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotFound"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ServerError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/banners": {
-            "get": {
-                "description": "Returns the list of banners",
-                "tags": ["Banners"],
-                "responses": {
-                    "200": {
-                        "description": "Banners returned sucessfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Banner"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ServerError"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "Creates the new banner",
-                "tags": ["Banners"],
-                "security": [
-                    {
-                        "bearerAccess": []
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Banner"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Banner created successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Banner"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Banner already exists",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BadRequest"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Unauthorized"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Not Permitted to this route",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotPermitted"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ServerError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/banners/{bannerId}": {
-            "get": {
-                "description": "Returns the banner",
-                "tags": ["Banners"],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "bannerId",
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "required": true,
-                        "description": "The id of the banner"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Banner returned succesfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Banner"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Banner Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotFound"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ServerError"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "put": {
-                "description": "Updates the banner",
-                "tags": ["Banners"],
-                "security": [
-                    {
-                        "bearerAccess": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "bannerId",
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "required": true,
-                        "description": "The id of the banner"
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Banner"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "204": {
-                        "description": "Banner updated successfully"
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Unauthorized"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Not Permitted to this route",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotPermitted"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Banner Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotFound"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ServerError"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "description": "Deletes the banner",
-                "tags": ["Banners"],
-                "security": [
-                    {
-                        "bearerAccess": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "bannerId",
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "required": true,
-                        "description": "The id of the banner"
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "Banner deleted successfully"
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Unauthorized"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Not Permitted to this route",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotPermitted"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Banner Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotFound"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ServerError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/locations": {
-            "get": {
-                "description": "Returns the list of locations",
-                "tags": ["Locations"],
-                "responses": {
-                    "200": {
-                        "description": "Locations returned sucessfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Location"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ServerError"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "Creates the new banner",
-                "tags": ["Locations"],
-                "security": [
-                    {
-                        "bearerAccess": []
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Location"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Location created successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Location"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Location already exists",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BadRequest"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Unauthorized"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Not Permitted to this route",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotPermitted"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ServerError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/locations/{locationId}": {
-            "get": {
-                "description": "Returns the location",
-                "tags": ["Locations"],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "locationId",
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "required": true,
-                        "description": "The id of the location"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Location returned succesfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Location"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Location Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotFound"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ServerError"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "put": {
-                "description": "Updates the location",
-                "tags": ["Locations"],
-                "security": [
-                    {
-                        "bearerAccess": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "locationId",
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "required": true,
-                        "description": "The id of the location"
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Location"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "204": {
-                        "description": "Location updated successfully"
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Unauthorized"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Not Permitted to this route",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotPermitted"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Location Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotFound"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ServerError"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "description": "Deletes the location",
-                "tags": ["Locations"],
-                "security": [
-                    {
-                        "bearerAccess": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "locationId",
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "required": true,
-                        "description": "The id of the location"
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "Location deleted successfully"
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Unauthorized"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Not Permitted to this route",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotPermitted"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Location Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotFound"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ServerError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/languages": {
-            "get": {
-                "description": "Returns the list of languages",
-                "tags": ["Languages"],
-                "responses": {
-                    "200": {
-                        "description": "Languages returned sucessfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Language"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ServerError"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "Creates the new language",
-                "tags": ["Languages"],
-                "security": [
-                    {
-                        "bearerAccess": []
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Language"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Language created successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Language"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Language already exists",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/BadRequest"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Unauthorized"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Not Permitted to this route",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotPermitted"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ServerError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/languages/{languageId}": {
-            "get": {
-                "description": "Returns the language",
-                "tags": ["Languages"],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "languageId",
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "required": true,
-                        "description": "The id of the language"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Language returned succesfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Language"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Language Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotFound"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ServerError"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "put": {
-                "description": "Updates the language",
-                "tags": ["Languages"],
-                "security": [
-                    {
-                        "bearerAccess": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "languageId",
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "required": true,
-                        "description": "The id of the language"
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/Language"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "204": {
-                        "description": "Language updated successfully"
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Unauthorized"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Not Permitted to this route",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotPermitted"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Language Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotFound"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ServerError"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "description": "Deletes the language",
-                "tags": ["Languages"],
-                "security": [
-                    {
-                        "bearerAccess": []
-                    }
-                ],
-                "parameters": [
-                    {
-                        "in": "path",
-                        "name": "languageId",
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "required": true,
-                        "description": "The id of the language"
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "Language deleted successfully"
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Unauthorized"
-                                }
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Not Permitted to this route",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotPermitted"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Language Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NotFound"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ServerError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Discounting Platform",
+    "description": "API Documentation for Discounting Platform",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:7070/v1",
+      "description": "Local Development Server"
     }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAccess": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+      "bearerRefresh": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "Location": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Auto generated on the server",
+            "example": "6009c0eee65f6dce28fb3e50"
+          },
+          "nameTm": {
+            "type": "string",
+            "description": "Location name in turkmen",
+            "example": "Aşgabat"
+          },
+          "nameRu": {
+            "type": "string",
+            "description": "Location name in russian",
+            "example": "Ашхабад"
+          },
+          "nameEn": {
+            "type": "string",
+            "description": "Location name in english",
+            "example": "Ashgabat"
+          }
+        },
+        "required": [
+          "id",
+          "nameTm",
+          "nameRu",
+          "nameEn"
+        ]
+      },
+      "Language": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Auto generated on the server",
+            "example": "6009c0eee65f6dce28fb3e50"
+          },
+          "languageTm": {
+            "type": "string",
+            "description": "Language name in turkmen",
+            "example": "Inlis dili"
+          },
+          "languageRu": {
+            "type": "string",
+            "description": "Language name in russian",
+            "example": "Английский"
+          },
+          "languageEn": {
+            "type": "string",
+            "description": "Language name in english",
+            "example": "English"
+          }
+        },
+        "required": [
+          "id",
+          "languageTm",
+          "languageRu",
+          "languageEn"
+        ]
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "uuid": {
+            "type": "string",
+            "example": "6009c0eee65f6dce28fb3e50",
+            "description": "Auto generated on the server"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "test@example.com"
+          },
+          "phone": {
+            "type": "string",
+            "example": "61234567"
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "example": "test123"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2017-07-21T17:32:28Z",
+            "description": "Auto generated on the server"
+          }
+        },
+        "required": [
+          "uuid",
+          "email",
+          "phone",
+          "password",
+          "createdDate"
+        ]
+      },
+      "PersonalInfo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Auto generated on the server",
+            "example": "6009c0eee65f6dce28fb3e50"
+          },
+          "firstname": {
+            "type": "string",
+            "example": "Michael"
+          },
+          "lastname": {
+            "type": "string",
+            "example": "Jackson"
+          },
+          "gender": {
+            "type": "string",
+            "description": "Has to be one of the following strings: 'male' or 'female'",
+            "example": "male"
+          },
+          "birthdate": {
+            "type": "string",
+            "format": "date",
+            "example": "2017-07-21"
+          },
+          "aboutMe": {
+            "type": "string",
+            "description": "Description about the user (text)"
+          },
+          "imageUrl": {
+            "type": "string",
+            "example": "http://hostname/images/image.jpg"
+          },
+          "userId": {
+            "type": "string",
+            "description": "Assigned on the server",
+            "example": "6009c0eee65f6dce28fb3e50"
+          }
+        }
+      },
+      "UserSettings": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Auto generated on the server",
+            "example": "6009c0eee65f6dce28fb3e50"
+          },
+          "locationId": {
+            "type": "string",
+            "description": "Users location id",
+            "example": "6009c0eee65f6dce28fb3e50"
+          },
+          "languageId": {
+            "type": "string",
+            "description": "User Interface Language id",
+            "example": "6009c0eee65f6dce28fb3e50"
+          },
+          "userId": {
+            "type": "string",
+            "description": "Assigned on the server",
+            "example": "6009c0eee65f6dce28fb3e50"
+          }
+        }
+      },
+      "Tokens": {
+        "type": "object",
+        "properties": {
+          "accessToken": {
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+          },
+          "refreshToken": {
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+          }
+        }
+      },
+      "Banner": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Auto generated on the server",
+            "example": "6009c0eee65f6dce28fb3e50"
+          },
+          "title": {
+            "type": "string",
+            "description": "Title or the description of the banner",
+            "example": "This is advertisement banner"
+          },
+          "imageUrl": {
+            "type": "string",
+            "example": "http://hostname/images/image.jpg"
+          }
+        },
+        "required": [
+          "id",
+          "title"
+        ]
+      },
+      "Section": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Auto generated on the server",
+            "example": "6009c0eee65f6dce28fb3e50"
+          },
+          "title": {
+            "type": "string",
+            "description": "Name of the section",
+            "example": "Popular"
+          }
+        },
+        "required": [
+          "id",
+          "title"
+        ]
+      },
+      "Category": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Auto generated on the server",
+            "example": "6009c0eee65f6dce28fb3e50"
+          },
+          "title": {
+            "type": "string",
+            "description": "Name of the category",
+            "example": "Job and vacancies"
+          },
+          "iconUrl": {
+            "type": "string",
+            "example": "http://hostname/images/image.jpg"
+          },
+          "color": {
+            "type": "string",
+            "description": "Background color of the icon in hex",
+            "example": "#deeb34"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "color"
+        ]
+      },
+      "Discount": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Auto generated on the server",
+            "example": "6009c0eee65f6dce28fb3e50"
+          },
+          "title": {
+            "type": "string",
+            "description": "Name or the description of the discount",
+            "example": "Lorem Beauty Salon"
+          },
+          "imageUrl": {
+            "type": "string",
+            "example": "http://hostname/images/image.jpg"
+          },
+          "disountAmount": {
+            "type": "number",
+            "format": "float",
+            "description": "The amount of discount in percent",
+            "example": 15.99
+          },
+          "quantity": {
+            "type": "integer",
+            "description": "The quantity of the given discount",
+            "example": 11
+          },
+          "expiryDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2017-07-21T17:32:28Z"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2017-07-21T17:32:28Z"
+          },
+          "sectionId": {
+            "type": "integer",
+            "description": "The section id that discount belongs to",
+            "example": 3
+          },
+          "categoryId": {
+            "type": "integer",
+            "description": "The category id that discount belongs to",
+            "example": 4
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "imageUrl",
+          "discountAmount",
+          "quantity",
+          "expiryDate",
+          "createdDate",
+          "sectionId",
+          "categoryId"
+        ]
+      },
+      "Unauthorized": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Unauthorization Message",
+            "example": "Unauthorized"
+          }
+        }
+      },
+      "NotPermitted": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Unauthorization Message",
+            "example": "Permission denied to this endpoint"
+          }
+        }
+      },
+      "NotFound": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Entity Not Found in the database",
+            "example": "Entity Not Found"
+          }
+        }
+      },
+      "BadRequest": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Bad Request Object",
+            "example": "Malformed Request"
+          }
+        }
+      },
+      "ServerError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Internal Server Error",
+            "example": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Authentication",
+      "description": "API endpoints for authenticating the user"
+    },
+    {
+      "name": "Users",
+      "description": "API endpoints for managing users"
+    },
+    {
+      "name": "Banners",
+      "description": "API endpoints for banners"
+    },
+    {
+      "name": "Sections",
+      "description": "API endpoints for sections"
+    },
+    {
+      "name": "Categories",
+      "description": "API endpoints for categories"
+    },
+    {
+      "name": "Discounts",
+      "description": "API endpoints for disounts"
+    },
+    {
+      "name": "Locations",
+      "description": "API endpoints for locations"
+    },
+    {
+      "name": "Languages",
+      "description": "API endpoints for languages"
+    }
+  ],
+  "paths": {
+    "/signup": {
+      "post": {
+        "description": "Registers a new user",
+        "tags": [
+          "Authentication"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created succesfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "user": {
+                          "$ref": "#/components/schemas/User"
+                        }
+                      }
+                    },
+                    {
+                      "$ref": "#/components/schemas/Tokens"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "description": "Logs in the User",
+        "tags": [
+          "Authentication"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User sucessfully logged in",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "user": {
+                          "$ref": "#/components/schemas/User"
+                        }
+                      }
+                    },
+                    {
+                      "$ref": "#/components/schemas/Tokens"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/token": {
+      "post": {
+        "description": "Returns new access token",
+        "tags": [
+          "Authentication"
+        ],
+        "security": [
+          {
+            "bearerRefresh": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Access token returned successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "accessToken": {
+                      "type": "string",
+                      "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/logout": {
+      "post": {
+        "description": "Logs out the user from the app",
+        "tags": [
+          "Authentication"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User successfully logged out",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "User successfully logged out"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "description": "Returns the list of users",
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Users returned sucessfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not Permitted to this route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotPermitted"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Creates the new user",
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User registered successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not Permitted to this route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotPermitted"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{userId}": {
+      "get": {
+        "description": "Returns the user by uuid",
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The universal unique identifier of the user"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User returned succesfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not Permitted to this route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotPermitted"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Updates the user",
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The universal unique identifier of the user"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "User updated successfully"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not Permitted to this route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotPermitted"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Deletes the user",
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The universal unique identifier of the user"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "User deleted successfully"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not Permitted to this route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotPermitted"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/banners": {
+      "get": {
+        "description": "Returns the list of banners",
+        "tags": [
+          "Banners"
+        ],
+        "responses": {
+          "200": {
+            "description": "Banners returned sucessfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Banner"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Creates the new banner",
+        "tags": [
+          "Banners"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Banner"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Banner created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Banner"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Banner already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not Permitted to this route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotPermitted"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/banners/{bannerId}": {
+      "get": {
+        "description": "Returns the banner",
+        "tags": [
+          "Banners"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "bannerId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The id of the banner"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Banner returned succesfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Banner"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Banner Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Updates the banner",
+        "tags": [
+          "Banners"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "bannerId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The id of the banner"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Banner"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Banner updated successfully"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not Permitted to this route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotPermitted"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Banner Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Deletes the banner",
+        "tags": [
+          "Banners"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "bannerId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The id of the banner"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Banner deleted successfully"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not Permitted to this route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotPermitted"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Banner Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/locations": {
+      "get": {
+        "description": "Returns the list of locations",
+        "tags": [
+          "Locations"
+        ],
+        "responses": {
+          "200": {
+            "description": "Locations returned sucessfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Location"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Creates the new banner",
+        "tags": [
+          "Locations"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Location"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Location created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Location"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Location already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not Permitted to this route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotPermitted"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/locations/{locationId}": {
+      "get": {
+        "description": "Returns the location",
+        "tags": [
+          "Locations"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "locationId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The id of the location"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Location returned succesfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Location"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Location Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Updates the location",
+        "tags": [
+          "Locations"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "locationId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The id of the location"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Location"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Location updated successfully"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not Permitted to this route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotPermitted"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Location Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Deletes the location",
+        "tags": [
+          "Locations"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "locationId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The id of the location"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Location deleted successfully"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not Permitted to this route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotPermitted"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Location Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/languages": {
+      "get": {
+        "description": "Returns the list of languages",
+        "tags": [
+          "Languages"
+        ],
+        "responses": {
+          "200": {
+            "description": "Languages returned sucessfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Language"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Creates the new language",
+        "tags": [
+          "Languages"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Language"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Language created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Language"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Language already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not Permitted to this route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotPermitted"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/languages/{languageId}": {
+      "get": {
+        "description": "Returns the language",
+        "tags": [
+          "Languages"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "languageId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The id of the language"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Language returned succesfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Language"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Language Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Updates the language",
+        "tags": [
+          "Languages"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "languageId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The id of the language"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Language"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Language updated successfully"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not Permitted to this route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotPermitted"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Language Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Deletes the language",
+        "tags": [
+          "Languages"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "languageId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The id of the language"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Language deleted successfully"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not Permitted to this route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotPermitted"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Language Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categories": {
+      "get": {
+        "description": "Returns the list of categories",
+        "tags": [
+          "Categories"
+        ],
+        "responses": {
+          "200": {
+            "description": "Categories returned sucessfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Category"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Creates the new category",
+        "tags": [
+          "Categories"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Category"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Category created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Banner already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not Permitted to this route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotPermitted"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categories/{categoryId}": {
+      "get": {
+        "description": "Returns the category",
+        "tags": [
+          "Categories"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "categoryId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The id of the category"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Category returned succesfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Category Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Updates the category",
+        "tags": [
+          "Categories"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "categoryId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The id of the category"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Category"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Category updated successfully"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not Permitted to this route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotPermitted"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Category Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Deletes the category",
+        "tags": [
+          "Categories"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "categoryId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The id of the category"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Category deleted successfully"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not Permitted to this route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotPermitted"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Category Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categories/{categoryId}/discounts": {
+      "get": {
+        "description": "Returns the discounts by category id",
+        "tags": [
+          "Categories"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "categoryId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The id of the category"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Discounts returned succesfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Discount"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categories/{categoryId}/discounts/{discountId}": {
+      "post": {
+        "description": "Associate discount to category",
+        "tags": [
+          "Categories"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "categoryId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The id of the category"
+          },
+          {
+            "in": "path",
+            "name": "discountId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The id of the discount"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Discount created successfully"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not Permitted to this route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotPermitted"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Category or Discount Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Unassociates discount from category",
+        "tags": [
+          "Categories"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "categoryId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The id of the category"
+          },
+          {
+            "in": "path",
+            "name": "discountId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The id of the discount"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Discount removed from category successfully"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not Permitted to this route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotPermitted"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Category or Discount Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
