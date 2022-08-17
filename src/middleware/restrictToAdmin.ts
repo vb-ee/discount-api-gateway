@@ -4,7 +4,7 @@ export const restrictToAdmin = () => {
     return (req: Request, res: Response, next: NextFunction) => {
         const { isAdmin } = req.payload
 
-        if (!isAdmin)
+        if (!isAdmin && req.method !== 'GET')
             return res
                 .status(403)
                 .send({ msg: 'You have no permission to this route' })
