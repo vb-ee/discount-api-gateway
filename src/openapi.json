@@ -90,15 +90,10 @@
       "User": {
         "type": "object",
         "properties": {
-          "uuid": {
+          "id": {
             "type": "string",
             "example": "6009c0eee65f6dce28fb3e50",
             "description": "Auto generated on the server"
-          },
-          "email": {
-            "type": "string",
-            "format": "email",
-            "example": "test@example.com"
           },
           "phone": {
             "type": "string",
@@ -109,6 +104,10 @@
             "format": "password",
             "example": "test123"
           },
+          "isAdmin": {
+            "type": "boolean",
+            "example": true
+          },
           "createdDate": {
             "type": "string",
             "format": "date-time",
@@ -118,10 +117,10 @@
         },
         "required": [
           "uuid",
-          "email",
           "phone",
           "password",
-          "createdDate"
+          "createdDate",
+          "isAdmin"
         ]
       },
       "PersonalInfo": {
@@ -131,6 +130,10 @@
             "type": "string",
             "description": "Auto generated on the server",
             "example": "6009c0eee65f6dce28fb3e50"
+          },
+          "email": {
+            "type": "string",
+            "example": "test@example.com"
           },
           "firstname": {
             "type": "string",
@@ -165,7 +168,7 @@
           }
         }
       },
-      "UserSettings": {
+      "UserSetting": {
         "type": "object",
         "properties": {
           "id": {
@@ -375,6 +378,16 @@
           }
         }
       },
+      "Conflict": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Conflict with existing resource",
+            "example": "Entity already exist"
+          }
+        }
+      },
       "ServerError": {
         "type": "object",
         "properties": {
@@ -419,6 +432,14 @@
     {
       "name": "Languages",
       "description": "API endpoints for languages"
+    },
+    {
+      "name": "User Settings",
+      "description": "API endpoints for user settings"
+    },
+    {
+      "name": "Personal Informations",
+      "description": "API endpoints for personal informations of user"
     }
   ],
   "paths": {
@@ -461,11 +482,21 @@
             }
           },
           "400": {
-            "description": "User already exists",
+            "description": "Validation error",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Confllict with existing resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
                 }
               }
             }
@@ -677,6 +708,24 @@
             "bearerAccess": []
           }
         ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "The page number"
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "The number of items per page"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Users returned sucessfully",
@@ -755,7 +804,7 @@
             }
           },
           "400": {
-            "description": "User already exists",
+            "description": "Validation error",
             "content": {
               "application/json": {
                 "schema": {
@@ -780,6 +829,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/NotPermitted"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict with existing resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
                 }
               }
             }
@@ -906,6 +965,16 @@
           "204": {
             "description": "User updated successfully"
           },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -1016,11 +1085,582 @@
         }
       }
     },
+    "/users/{userId}/user-setting": {
+      "get": {
+        "description": "Returns the user setting by user id",
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The id of the user"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User setting returned succesfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserSetting"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Create the user setting for user",
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The id of the user"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserSetting"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User setting created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserSetting"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict with existing resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Updates the user setting of user",
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The id of the user"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserSetting"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "User setting updated successfully"
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Deletes the user setting of user",
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The id of the user"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "User setting deleted successfully"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{userId}/personal-info": {
+      "get": {
+        "description": "Returns the personal info by user id",
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The id of the user"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Personal info returned succesfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalInfo"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Create the personal info for user",
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The id of the user"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalInfo"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Personal Info created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalInfo"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict with existing resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Updates the personal inof of user",
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The id of the user"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalInfo"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Personal Info updated successfully"
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Deletes the personal info of user",
+        "tags": [
+          "Users"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The id of the user"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Personal Info deleted successfully"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "User Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/banners": {
       "get": {
         "description": "Returns the list of banners",
         "tags": [
           "Banners"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
         ],
         "responses": {
           "200": {
@@ -1080,7 +1720,7 @@
             }
           },
           "400": {
-            "description": "Banner already exists",
+            "description": "Validation error",
             "content": {
               "application/json": {
                 "schema": {
@@ -1109,6 +1749,16 @@
               }
             }
           },
+          "409": {
+            "description": "Conflict with existing resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -1127,6 +1777,11 @@
         "description": "Returns the banner",
         "tags": [
           "Banners"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
         ],
         "parameters": [
           {
@@ -1205,6 +1860,16 @@
         "responses": {
           "204": {
             "description": "Banner updated successfully"
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
           },
           "401": {
             "description": "Unauthorized",
@@ -1322,6 +1987,11 @@
         "tags": [
           "Locations"
         ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Locations returned sucessfully",
@@ -1380,7 +2050,7 @@
             }
           },
           "400": {
-            "description": "Location already exists",
+            "description": "Validation error",
             "content": {
               "application/json": {
                 "schema": {
@@ -1409,6 +2079,16 @@
               }
             }
           },
+          "409": {
+            "description": "Conflict with ezisting resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -1427,6 +2107,11 @@
         "description": "Returns the location",
         "tags": [
           "Locations"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
         ],
         "parameters": [
           {
@@ -1505,6 +2190,16 @@
         "responses": {
           "204": {
             "description": "Location updated successfully"
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
           },
           "401": {
             "description": "Unauthorized",
@@ -1622,6 +2317,11 @@
         "tags": [
           "Languages"
         ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Languages returned sucessfully",
@@ -1680,7 +2380,7 @@
             }
           },
           "400": {
-            "description": "Language already exists",
+            "description": "Validation error",
             "content": {
               "application/json": {
                 "schema": {
@@ -1709,6 +2409,16 @@
               }
             }
           },
+          "409": {
+            "description": "Conflict with existing resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -1727,6 +2437,11 @@
         "description": "Returns the language",
         "tags": [
           "Languages"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
         ],
         "parameters": [
           {
@@ -1805,6 +2520,16 @@
         "responses": {
           "204": {
             "description": "Language updated successfully"
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
           },
           "401": {
             "description": "Unauthorized",
@@ -1922,6 +2647,11 @@
         "tags": [
           "Categories"
         ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Categories returned sucessfully",
@@ -1980,7 +2710,7 @@
             }
           },
           "400": {
-            "description": "Banner already exists",
+            "description": "Validation error",
             "content": {
               "application/json": {
                 "schema": {
@@ -2009,6 +2739,16 @@
               }
             }
           },
+          "409": {
+            "description": "Conflict with existing resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -2027,6 +2767,11 @@
         "description": "Returns the category",
         "tags": [
           "Categories"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
         ],
         "parameters": [
           {
@@ -2105,6 +2850,16 @@
         "responses": {
           "204": {
             "description": "Category updated successfully"
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
           },
           "401": {
             "description": "Unauthorized",
@@ -2222,6 +2977,11 @@
         "tags": [
           "Categories"
         ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
@@ -2292,8 +3052,8 @@
           }
         ],
         "responses": {
-          "201": {
-            "description": "Discount created successfully"
+          "200": {
+            "description": "Discount added to category successfully"
           },
           "401": {
             "description": "Unauthorized",
@@ -2393,6 +3153,656 @@
           },
           "404": {
             "description": "Category or Discount Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user-settings": {
+      "get": {
+        "description": "Returns the list of user settings",
+        "tags": [
+          "User Settings"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User Settings returned sucessfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserSetting"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Creates the new user setting",
+        "tags": [
+          "User Settings"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserSetting"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Category created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserSetting"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not Permitted to this route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotPermitted"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict with existing resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user-settings/{userSettingId}": {
+      "get": {
+        "description": "Returns the user setting by id",
+        "tags": [
+          "User Settings"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userSettingId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The id of the user setting"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User Setting returned succesfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserSetting"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Category Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Updates the user setting",
+        "tags": [
+          "User Settings"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userSettingId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The id of the user setting"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserSetting"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "User Setting updated successfully"
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not Permitted to this route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotPermitted"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Category Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Deletes the user setting",
+        "tags": [
+          "User Settings"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userSettingId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The id of the user setting"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "User Setting deleted successfully"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not Permitted to this route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotPermitted"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Category Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/personal-infos": {
+      "get": {
+        "description": "Returns the list of personal infos",
+        "tags": [
+          "Personal Informations"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Personal infos returned sucessfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PersonalInfo"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "description": "Creates the new personal info",
+        "tags": [
+          "Personal Informations"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalInfo"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Personal info created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalInfo"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not Permitted to this route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotPermitted"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict with existing resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Conflict"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/personal-infos/{personalInfoId}": {
+      "get": {
+        "description": "Returns the personal info by id",
+        "tags": [
+          "Personal Informations"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "personalInfoId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The id of the personal info"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Personal info returned succesfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PersonalInfo"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Personal Info Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "description": "Updates the personal info",
+        "tags": [
+          "Personal Informations"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "personalInfoId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The id of the personal info"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PersonalInfo"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Personal Info updated successfully"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not Permitted to this route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotPermitted"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Category Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFound"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "description": "Deletes the personal info",
+        "tags": [
+          "Personal Informations"
+        ],
+        "security": [
+          {
+            "bearerAccess": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "personalInfoId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "The id of the personal info"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Personal Info deleted successfully"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Not Permitted to this route",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotPermitted"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Category Not Found",
             "content": {
               "application/json": {
                 "schema": {

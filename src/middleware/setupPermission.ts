@@ -4,6 +4,6 @@ import { restrictToAdmin } from './restrictToAdmin'
 
 export const setupPermission = (app: Express, routeConfigs: RouteOption[]) => {
     routeConfigs.forEach((route) => {
-        if (route.forAdmin) app.use(route.url, restrictToAdmin)
+        if (route.forAdmin) app.use(route.url, restrictToAdmin())
     })
 }

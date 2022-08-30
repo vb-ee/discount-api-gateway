@@ -23,7 +23,7 @@ export const startApp = () => {
     app.use(morgan('dev'))
     app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc))
 
-    // setupAuth(app, routeConfigs)
+    setupAuth(app, routeConfigs)
     setupPermission(app, routeConfigs)
     setupRoutes(app, routeConfigs)
 
