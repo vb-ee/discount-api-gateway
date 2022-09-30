@@ -52,5 +52,18 @@ export const authRoutes: RouteOption[] = [
                 '^/token': '/token'
             }
         }
+    },
+    {
+        url: '/user',
+        auth: true,
+        authRefresh: false,
+        forAdmin: false,
+        options: {
+            target: `${usersServiceUri}`,
+            changeOrigin: true,
+            pathRewrite: {
+                '^/user': '/user'
+            }
+        }
     }
 ]

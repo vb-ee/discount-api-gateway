@@ -3,29 +3,28 @@ import { RouteOption } from './RouteOption'
 
 const profilesServiceUri = accessEnv('PROFILES_SERVICE_URI')
 
-export const personalInfoRoutes: RouteOption[] = [
+export const profileRoutes: RouteOption[] = [
     {
-        url: '/personal-infos',
+        url: '/profiles',
         auth: true,
         forAdmin: true,
         options: {
             target: `${profilesServiceUri}`,
             changeOrigin: true,
             pathRewrite: {
-                '^/personal-infos': '/personal-infos'
+                '^/profiles': '/profiles'
             }
         }
     },
     {
-        url: '/personal-infos/:personalInfoId',
+        url: '/profiles/:profileId',
         auth: true,
         forAdmin: true,
         options: {
             target: `${profilesServiceUri}`,
             changeOrigin: true,
             pathRewrite: {
-                '^/personal-infos/:personalInfoId':
-                    '/personal-infos/:personalInfoId'
+                '^/profiles/:profileId': '/profiles/:profileId'
             }
         }
     }

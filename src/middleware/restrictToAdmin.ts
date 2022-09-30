@@ -7,7 +7,7 @@ export const restrictToAdmin = () => {
         if (!isAdmin && req.method !== 'GET')
             return res
                 .status(403)
-                .send({ msg: 'You have no permission to this route' })
+                .send({ errors: 'You have no permission to this route' })
         next()
     }
 }

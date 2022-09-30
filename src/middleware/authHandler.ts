@@ -30,12 +30,12 @@ export const authHandler = (tokenType: string = Tokens.accessToken) => {
 
                 next()
             } catch (error) {
-                return res.status(401).send({ msg: 'Invalid token' })
+                return res.status(401).send({ errors: 'Invalid token' })
             }
         } else {
             return res
                 .status(401)
-                .send({ msg: 'Authorization header not found' })
+                .send({ errors: 'Authorization header not found' })
         }
     }
 }

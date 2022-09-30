@@ -10,8 +10,11 @@ import {
     categoryRoutes,
     locationRoutes,
     languageRoutes,
-    personalInfoRoutes,
-    userSettingRoutes
+    profileRoutes,
+    userSettingRoutes,
+    sectionRoutes,
+    discountRoutes,
+    meRoutes
 } from './routes'
 import { accessEnv } from './utils'
 import swaggerUi from 'swagger-ui-express'
@@ -25,25 +28,28 @@ const routeConfigs = [
     ...locationRoutes,
     ...languageRoutes,
     ...userSettingRoutes,
-    ...personalInfoRoutes
+    ...profileRoutes,
+    ...sectionRoutes,
+    ...discountRoutes,
+    ...meRoutes
 ]
-const port = parseInt(accessEnv('PORT', '7070'))
+const port = parseInt(accessEnv('PORT', '8080'))
 
 export const startApp = () => {
     const app = express()
 
     app.use(cors())
-    app.use(morgan('dev'))
     app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc))
+    app.use(morgan('dev'))
+    app.use(bodyParser.json())
+    app.use(bodyParser.urlencoded({ extended: true }))
 
     setupAuth(app, routeConfigs)
-    setupPermission(app, routeConfigs)
+    // setupPermission(app, routeConfigs)
     setupRoutes(app, routeConfigs)
 
-    app.use(bodyParser.json())
-
     app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-        return res.status(500).send({ msg: err.message })
+        return res.status(500).send({ errors: err.message })
     })
 
     app.listen(port, '0.0.0.0', () => {
