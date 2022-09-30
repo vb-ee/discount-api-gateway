@@ -15,29 +15,5 @@ export const meRoutes: RouteOption[] = [
                 '^/me': '/me'
             }
         }
-    },
-    {
-        url: '/me/profile',
-        auth: true,
-        forAdmin: false,
-        options: {
-            target: `${usersServiceUri}`,
-            changeOrigin: true,
-            pathRewrite: {
-                '^/me/profile': '/me/profile'
-            }
-        }
-    },
-    {
-        url: '/me/setting',
-        auth: true,
-        forAdmin: false,
-        options: {
-            target: `${usersServiceUri}`,
-            changeOrigin: true,
-            pathRewrite: {
-                '^/me/setting': '/me/setting'
-            }
-        }
     }
 ]
