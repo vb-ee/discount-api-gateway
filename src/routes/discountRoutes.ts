@@ -53,5 +53,18 @@ export const discountRoutes: RouteOption[] = [
                     '/sections/:sectionId/discounts'
             }
         }
+    },
+    {
+        url: '/discount-images/*.(png|jpg|jpeg)$/',
+        auth: true,
+        forAdmin: true,
+        options: {
+            target: `${discountsServiceUri}`,
+            changeOrigin: true,
+            pathRewrite: {
+                '^/discount-images/*.(png|jpg|jpeg)$/':
+                    '/discount-images/*.(png|jpg|jpeg)$/'
+            }
+        }
     }
 ]

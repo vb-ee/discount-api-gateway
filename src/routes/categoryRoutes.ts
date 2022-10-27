@@ -27,5 +27,18 @@ export const categoryRoutes: RouteOption[] = [
                 '^/categories/:categoryId': '/categories/:categoryId'
             }
         }
+    },
+    {
+        url: '/category-images/*.(png|jpg|jpeg)$/',
+        auth: true,
+        forAdmin: true,
+        options: {
+            target: `${categoriesServiceUri}`,
+            changeOrigin: true,
+            pathRewrite: {
+                '^/category-images/*.(png|jpg|jpeg)$/':
+                    '/category-images/*.(png|jpg|jpeg)$/'
+            }
+        }
     }
 ]

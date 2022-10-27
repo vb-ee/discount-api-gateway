@@ -27,5 +27,18 @@ export const bannerRoutes: RouteOption[] = [
                 '^/banners/:bannerId': '/banners/:bannerId'
             }
         }
+    },
+    {
+        url: '/banner-images/*.(png|jpg|jpeg)$/',
+        auth: true,
+        forAdmin: true,
+        options: {
+            target: `${bannersServiceUri}`,
+            changeOrigin: true,
+            pathRewrite: {
+                '^/banner-images/*.(png|jpg|jpeg)$/':
+                    '/banner-images/*.(png|jpg|jpeg)$/'
+            }
+        }
     }
 ]
