@@ -7,7 +7,6 @@ export const userSettingRoutes: RouteOption[] = [
     {
         url: '/user-settings',
         auth: true,
-        forAdmin: true,
         options: {
             target: `${profilesServiceUri}`,
             changeOrigin: true,
@@ -19,7 +18,6 @@ export const userSettingRoutes: RouteOption[] = [
     {
         url: '/user-settings/:userSettingId',
         auth: true,
-        forAdmin: true,
         options: {
             target: `${profilesServiceUri}`,
             changeOrigin: true,

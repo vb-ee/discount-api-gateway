@@ -7,7 +7,6 @@ export const bannerRoutes: RouteOption[] = [
     {
         url: '/banners',
         auth: true,
-        forAdmin: true,
         options: {
             target: `${bannersServiceUri}`,
             changeOrigin: true,
@@ -19,7 +18,6 @@ export const bannerRoutes: RouteOption[] = [
     {
         url: '/banners/:bannerId',
         auth: true,
-        forAdmin: true,
         options: {
             target: `${bannersServiceUri}`,
             changeOrigin: true,
@@ -31,7 +29,6 @@ export const bannerRoutes: RouteOption[] = [
     {
         url: '/banner-images/*.(png|jpg|jpeg)$/',
         auth: true,
-        forAdmin: true,
         options: {
             target: `${bannersServiceUri}`,
             changeOrigin: true,

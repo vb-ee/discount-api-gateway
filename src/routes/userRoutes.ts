@@ -7,7 +7,6 @@ export const userRoutes: RouteOption[] = [
     {
         url: '/users',
         auth: true,
-        forAdmin: true,
         options: {
             target: `${usersServiceUri}`,
             changeOrigin: true,
@@ -19,7 +18,6 @@ export const userRoutes: RouteOption[] = [
     {
         url: '/users/:userId',
         auth: true,
-        forAdmin: true,
         options: {
             target: `${usersServiceUri}`,
             changeOrigin: true,

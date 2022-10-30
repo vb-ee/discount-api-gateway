@@ -7,7 +7,6 @@ export const authRoutes: RouteOption[] = [
     {
         url: '/signup',
         auth: false,
-        forAdmin: false,
         options: {
             target: `${usersServiceUri}`,
             changeOrigin: true,
@@ -19,7 +18,6 @@ export const authRoutes: RouteOption[] = [
     {
         url: '/login',
         auth: false,
-        forAdmin: false,
         options: {
             target: `${usersServiceUri}`,
             changeOrigin: true,
@@ -31,7 +29,6 @@ export const authRoutes: RouteOption[] = [
     {
         url: '/logout',
         auth: true,
-        forAdmin: false,
         options: {
             target: `${usersServiceUri}`,
             changeOrigin: true,
@@ -44,25 +41,11 @@ export const authRoutes: RouteOption[] = [
         url: '/token',
         auth: false,
         authRefresh: true,
-        forAdmin: false,
         options: {
             target: `${usersServiceUri}`,
             changeOrigin: true,
             pathRewrite: {
                 '^/token': '/token'
-            }
-        }
-    },
-    {
-        url: '/user',
-        auth: true,
-        authRefresh: false,
-        forAdmin: false,
-        options: {
-            target: `${usersServiceUri}`,
-            changeOrigin: true,
-            pathRewrite: {
-                '^/user': '/user'
             }
         }
     }

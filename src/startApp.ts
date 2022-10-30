@@ -2,7 +2,7 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import express, { NextFunction, Request, Response } from 'express'
 import morgan from 'morgan'
-import { setupAuth, setupPermission, setupRoutes } from './middleware'
+import { setupAuth, setupRoutes } from './middleware'
 import {
     authRoutes,
     userRoutes,
@@ -46,7 +46,6 @@ export const startApp = () => {
     app.use(bodyParser.urlencoded({ extended: true }))
 
     setupAuth(app, routeConfigs)
-    // setupPermission(app, routeConfigs)
     setupRoutes(app, routeConfigs)
 
     app.use((err: Error, req: Request, res: Response, next: NextFunction) => {

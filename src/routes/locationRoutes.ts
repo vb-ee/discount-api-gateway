@@ -7,7 +7,6 @@ export const locationRoutes: RouteOption[] = [
     {
         url: '/locations',
         auth: true,
-        forAdmin: true,
         options: {
             target: `${profilesServiceUri}`,
             changeOrigin: true,
@@ -19,7 +18,6 @@ export const locationRoutes: RouteOption[] = [
     {
         url: '/locations/:locationId',
         auth: true,
-        forAdmin: true,
         options: {
             target: `${profilesServiceUri}`,
             changeOrigin: true,

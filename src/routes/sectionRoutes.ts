@@ -7,7 +7,6 @@ export const sectionRoutes: RouteOption[] = [
     {
         url: '/sections',
         auth: true,
-        forAdmin: true,
         options: {
             target: `${sectionsServiceUri}`,
             changeOrigin: true,
@@ -19,7 +18,6 @@ export const sectionRoutes: RouteOption[] = [
     {
         url: '/sections/:sectionId',
         auth: true,
-        forAdmin: true,
         options: {
             target: `${sectionsServiceUri}`,
             changeOrigin: true,

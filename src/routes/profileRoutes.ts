@@ -7,7 +7,6 @@ export const profileRoutes: RouteOption[] = [
     {
         url: '/profiles',
         auth: true,
-        forAdmin: true,
         options: {
             target: `${profilesServiceUri}`,
             changeOrigin: true,
@@ -19,7 +18,6 @@ export const profileRoutes: RouteOption[] = [
     {
         url: '/profiles/:profileId',
         auth: true,
-        forAdmin: true,
         options: {
             target: `${profilesServiceUri}`,
             changeOrigin: true,

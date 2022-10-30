@@ -7,7 +7,6 @@ export const discountRoutes: RouteOption[] = [
     {
         url: '/discounts',
         auth: true,
-        forAdmin: true,
         options: {
             target: `${discountsServiceUri}`,
             changeOrigin: true,
@@ -19,7 +18,6 @@ export const discountRoutes: RouteOption[] = [
     {
         url: '/discounts/:discountId',
         auth: true,
-        forAdmin: true,
         options: {
             target: `${discountsServiceUri}`,
             changeOrigin: true,
@@ -31,7 +29,6 @@ export const discountRoutes: RouteOption[] = [
     {
         url: '/categories/:categoryId/discounts',
         auth: true,
-        forAdmin: true,
         options: {
             target: `${discountsServiceUri}`,
             changeOrigin: true,
@@ -44,7 +41,6 @@ export const discountRoutes: RouteOption[] = [
     {
         url: '/sections/:sectionId/discounts',
         auth: true,
-        forAdmin: true,
         options: {
             target: `${discountsServiceUri}`,
             changeOrigin: true,
@@ -57,7 +53,6 @@ export const discountRoutes: RouteOption[] = [
     {
         url: '/discount-images/*.(png|jpg|jpeg)$/',
         auth: true,
-        forAdmin: true,
         options: {
             target: `${discountsServiceUri}`,
             changeOrigin: true,

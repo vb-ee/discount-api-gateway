@@ -7,7 +7,6 @@ export const categoryRoutes: RouteOption[] = [
     {
         url: '/categories',
         auth: true,
-        forAdmin: true,
         options: {
             target: `${categoriesServiceUri}`,
             changeOrigin: true,
@@ -19,7 +18,6 @@ export const categoryRoutes: RouteOption[] = [
     {
         url: '/categories/:categoryId',
         auth: true,
-        forAdmin: true,
         options: {
             target: `${categoriesServiceUri}`,
             changeOrigin: true,
@@ -31,7 +29,6 @@ export const categoryRoutes: RouteOption[] = [
     {
         url: '/category-images/*.(png|jpg|jpeg)$/',
         auth: true,
-        forAdmin: true,
         options: {
             target: `${categoriesServiceUri}`,
             changeOrigin: true,

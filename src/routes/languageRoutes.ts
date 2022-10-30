@@ -7,7 +7,6 @@ export const languageRoutes: RouteOption[] = [
     {
         url: '/languages',
         auth: true,
-        forAdmin: true,
         options: {
             target: `${profilesServiceUri}`,
             changeOrigin: true,
@@ -19,7 +18,6 @@ export const languageRoutes: RouteOption[] = [
     {
         url: '/languages/:languageId',
         auth: true,
-        forAdmin: true,
         options: {
             target: `${profilesServiceUri}`,
             changeOrigin: true,

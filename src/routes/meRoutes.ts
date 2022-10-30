@@ -7,7 +7,6 @@ export const meRoutes: RouteOption[] = [
     {
         url: '/me',
         auth: true,
-        forAdmin: false,
         options: {
             target: `${usersServiceUri}`,
             changeOrigin: true,

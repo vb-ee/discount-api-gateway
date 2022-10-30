@@ -7,7 +7,6 @@ export const meProfileRoutes: RouteOption[] = [
     {
         url: '/me/profile',
         auth: true,
-        forAdmin: false,
         options: {
             target: `${profilesServiceUri}`,
             changeOrigin: true,
@@ -19,7 +18,6 @@ export const meProfileRoutes: RouteOption[] = [
     {
         url: '/me/setting',
         auth: true,
-        forAdmin: false,
         options: {
             target: `${profilesServiceUri}`,
             changeOrigin: true,
