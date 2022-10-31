@@ -105,7 +105,7 @@
           "createdDate"
         ]
       },
-      "PersonalInfo": {
+      "Profile": {
         "type": "object",
         "properties": {
           "id": {
@@ -235,7 +235,7 @@
             "description": "Name of the category",
             "example": "Job and vacancies"
           },
-          "iconUrl": {
+          "imageUrl": {
             "type": "string",
             "example": "http://hostname/images/image.jpg"
           },
@@ -248,7 +248,7 @@
         "required": [
           "id",
           "title",
-          "iconUrl",
+          "imageUrl",
           "color"
         ]
       },
@@ -409,7 +409,7 @@
       "description": "API endpoints for user settings"
     },
     {
-      "name": "Personal Informations",
+      "name": "Profiles",
       "description": "API endpoints for personal informations of user"
     },
     {
@@ -1427,9 +1427,9 @@
         }
       }
     },
-    "/users/{userId}/personal-info": {
+    "/users/{userId}/profile": {
       "get": {
-        "description": "Returns the personal info by user id",
+        "description": "Returns the profile by user id",
         "tags": [
           "Users"
         ],
@@ -1451,11 +1451,11 @@
         ],
         "responses": {
           "200": {
-            "description": "Personal info returned succesfully",
+            "description": "Profile returned succesfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PersonalInfo"
+                  "$ref": "#/components/schemas/Profile"
                 }
               }
             }
@@ -1546,8 +1546,9 @@
                     "type": "string",
                     "description": "Description about the user (text)"
                   },
-                  "imageFile": {
+                  "avatar": {
                     "type": "string",
+                    "description": "photo of the user",
                     "format": "binary"
                   }
                 }
@@ -1557,11 +1558,11 @@
         },
         "responses": {
           "201": {
-            "description": "Personal Info created successfully",
+            "description": "Profile created successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PersonalInfo"
+                  "$ref": "#/components/schemas/Profile"
                 }
               }
             }
@@ -1661,8 +1662,9 @@
                     "type": "string",
                     "description": "Description about the user (text)"
                   },
-                  "imageFile": {
+                  "avatar": {
                     "type": "string",
+                    "description": "photo of the user",
                     "format": "binary"
                   }
                 }
@@ -1672,11 +1674,11 @@
         },
         "responses": {
           "200": {
-            "description": "Personal Info updated successfully",
+            "description": "Profile updated successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PersonalInfo"
+                  "$ref": "#/components/schemas/Profile"
                 }
               }
             }
@@ -1724,7 +1726,7 @@
         }
       },
       "delete": {
-        "description": "Deletes the personal info of user",
+        "description": "Deletes the profile of user",
         "tags": [
           "Users"
         ],
@@ -1746,7 +1748,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Personal Info deleted successfully"
+            "description": "Profile deleted successfully"
           },
           "401": {
             "description": "Unauthorized",
@@ -1806,6 +1808,16 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -1839,14 +1851,14 @@
                     "type": "string",
                     "example": "advertisement"
                   },
-                  "imageFile": {
+                  "banner": {
                     "type": "string",
                     "format": "binary"
                   }
                 },
                 "required": [
                   "title",
-                  "imageFile"
+                  "banner"
                 ]
               }
             }
@@ -1949,6 +1961,16 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
           "404": {
             "description": "Banner Not Found",
             "content": {
@@ -2002,7 +2024,7 @@
                     "type": "string",
                     "example": "advertisement"
                   },
-                  "imageFile": {
+                  "banner": {
                     "type": "string",
                     "format": "binary"
                   }
@@ -2167,6 +2189,16 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -2314,6 +2346,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Location"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
                 }
               }
             }
@@ -2543,6 +2585,16 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -2678,6 +2730,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Language"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
                 }
               }
             }
@@ -2897,6 +2959,16 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -2931,9 +3003,10 @@
                     "description": "Name of the category",
                     "example": "Job and vacancies"
                   },
-                  "iconFile": {
+                  "category": {
                     "type": "string",
-                    "format": "binary"
+                    "format": "binary",
+                    "description": "icon file of the category"
                   },
                   "color": {
                     "type": "string",
@@ -2943,7 +3016,7 @@
                 },
                 "required": [
                   "title",
-                  "iconFile",
+                  "category",
                   "color"
                 ]
               }
@@ -3047,6 +3120,16 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
           "404": {
             "description": "Category Not Found",
             "content": {
@@ -3101,9 +3184,10 @@
                     "description": "Name of the category",
                     "example": "Job and vacancies"
                   },
-                  "iconFile": {
+                  "category": {
                     "type": "string",
-                    "format": "binary"
+                    "format": "binary",
+                    "description": "icon file of the category"
                   },
                   "color": {
                     "type": "string",
@@ -3278,6 +3362,16 @@
                   "items": {
                     "$ref": "#/components/schemas/Discount"
                   }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
                 }
               }
             }
@@ -3474,6 +3568,16 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -3609,6 +3713,16 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Section"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
                 }
               }
             }
@@ -3839,6 +3953,16 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -4031,6 +4155,16 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
           "500": {
             "description": "Internal Server Error",
             "content": {
@@ -4072,7 +4206,7 @@
                   },
                   "userId": {
                     "type": "string",
-                    "description": "Id of the language",
+                    "description": "Id of the user",
                     "example": "6009c0eee65f6dce28fb3e50"
                   }
                 },
@@ -4182,6 +4316,16 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
+                }
+              }
+            }
+          },
           "404": {
             "description": "Category Not Found",
             "content": {
@@ -4243,7 +4387,7 @@
                   },
                   "userId": {
                     "type": "string",
-                    "description": "Id of the language",
+                    "description": "Id of the user",
                     "example": "6009c0eee65f6dce28fb3e50"
                   }
                 }
@@ -4382,11 +4526,11 @@
         }
       }
     },
-    "/personal-infos": {
+    "/profiles": {
       "get": {
-        "description": "Returns the list of personal infos",
+        "description": "Returns the list of profiles",
         "tags": [
-          "Personal Informations"
+          "Profiles"
         ],
         "security": [
           {
@@ -4395,14 +4539,24 @@
         ],
         "responses": {
           "200": {
-            "description": "Personal infos returned sucessfully",
+            "description": "Profiles returned sucessfully",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/PersonalInfo"
+                    "$ref": "#/components/schemas/Profile"
                   }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
                 }
               }
             }
@@ -4420,9 +4574,9 @@
         }
       },
       "post": {
-        "description": "Creates the new personal info",
+        "description": "Creates the new profile",
         "tags": [
-          "Personal Informations"
+          "Profiles"
         ],
         "security": [
           {
@@ -4438,7 +4592,6 @@
                 "properties": {
                   "email": {
                     "type": "string",
-                    "description": "Name of the category",
                     "example": "test@example.com"
                   },
                   "firstname": {
@@ -4459,9 +4612,10 @@
                     "format": "date",
                     "example": "2017-07-21"
                   },
-                  "image": {
+                  "avatar": {
                     "type": "string",
-                    "format": "binary"
+                    "format": "binary",
+                    "description": "photo of the user"
                   },
                   "aboutMe": {
                     "type": "string",
@@ -4469,7 +4623,7 @@
                   },
                   "userId": {
                     "type": "string",
-                    "description": "Id of the language",
+                    "description": "Id of the user",
                     "example": "6009c0eee65f6dce28fb3e50"
                   }
                 }
@@ -4479,11 +4633,11 @@
         },
         "responses": {
           "201": {
-            "description": "Personal info created successfully",
+            "description": "Profile created successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PersonalInfo"
+                  "$ref": "#/components/schemas/Profile"
                 }
               }
             }
@@ -4541,11 +4695,11 @@
         }
       }
     },
-    "/personal-infos/{personalInfoId}": {
+    "/profiles/{profileId}": {
       "get": {
-        "description": "Returns the personal info by id",
+        "description": "Returns the profile by id",
         "tags": [
-          "Personal Informations"
+          "Profiles"
         ],
         "security": [
           {
@@ -4555,27 +4709,37 @@
         "parameters": [
           {
             "in": "path",
-            "name": "personalInfoId",
+            "name": "profileId",
             "schema": {
               "type": "string"
             },
             "required": true,
-            "description": "The id of the personal info"
+            "description": "The id of the profile"
           }
         ],
         "responses": {
           "200": {
-            "description": "Personal info returned succesfully",
+            "description": "Profile returned succesfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PersonalInfo"
+                  "$ref": "#/components/schemas/Profile"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
                 }
               }
             }
           },
           "404": {
-            "description": "Personal Info Not Found",
+            "description": "Profile Not Found",
             "content": {
               "application/json": {
                 "schema": {
@@ -4597,9 +4761,9 @@
         }
       },
       "put": {
-        "description": "Updates the personal info",
+        "description": "Updates the profile",
         "tags": [
-          "Personal Informations"
+          "Profiles"
         ],
         "security": [
           {
@@ -4609,12 +4773,12 @@
         "parameters": [
           {
             "in": "path",
-            "name": "personalInfoId",
+            "name": "profileId",
             "schema": {
               "type": "string"
             },
             "required": true,
-            "description": "The id of the personal info"
+            "description": "The id of the profile"
           }
         ],
         "requestBody": {
@@ -4625,7 +4789,6 @@
                 "properties": {
                   "email": {
                     "type": "string",
-                    "description": "Name of the category",
                     "example": "test@example.com"
                   },
                   "firstname": {
@@ -4646,8 +4809,9 @@
                     "format": "date",
                     "example": "2017-07-21"
                   },
-                  "image": {
+                  "avatar": {
                     "type": "string",
+                    "description": "photo of the user",
                     "format": "binary"
                   },
                   "aboutMe": {
@@ -4656,7 +4820,7 @@
                   },
                   "userId": {
                     "type": "string",
-                    "description": "Id of the language",
+                    "description": "Id of the user",
                     "example": "6009c0eee65f6dce28fb3e50"
                   }
                 }
@@ -4666,11 +4830,11 @@
         },
         "responses": {
           "200": {
-            "description": "Personal Info updated successfully",
+            "description": "Profile updated successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PersonalInfo"
+                  "$ref": "#/components/schemas/Profile"
                 }
               }
             }
@@ -4730,7 +4894,7 @@
       "delete": {
         "description": "Deletes the personal info",
         "tags": [
-          "Personal Informations"
+          "Profiles"
         ],
         "security": [
           {
@@ -4740,17 +4904,17 @@
         "parameters": [
           {
             "in": "path",
-            "name": "personalInfoId",
+            "name": "profileId",
             "schema": {
               "type": "string"
             },
             "required": true,
-            "description": "The id of the personal info"
+            "description": "The id of the profile"
           }
         ],
         "responses": {
           "204": {
-            "description": "Personal Info deleted successfully"
+            "description": "Profile deleted successfully"
           },
           "401": {
             "description": "Unauthorized",
@@ -4806,6 +4970,24 @@
             "bearerAccess": []
           }
         ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "categoryId",
+            "schema": {
+              "type": "string"
+            },
+            "description": "category id"
+          },
+          {
+            "in": "query",
+            "name": "sectionId",
+            "schema": {
+              "type": "string"
+            },
+            "description": "section id"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Disounts returned sucessfully",
@@ -4816,6 +4998,16 @@
                   "items": {
                     "$ref": "#/components/schemas/Discount"
                   }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
                 }
               }
             }
@@ -4854,9 +5046,10 @@
                     "description": "Name or the description of the discount",
                     "example": "Lorem Beauty Salon"
                   },
-                  "imageFile": {
+                  "discount": {
                     "type": "string",
-                    "format": "binary"
+                    "format": "binary",
+                    "description": "image of the discount"
                   },
                   "disountAmount": {
                     "type": "number",
@@ -4874,12 +5067,12 @@
                     "format": "date-time",
                     "example": "2017-07-21T17:32:28Z"
                   },
-                  "sectionId": {
+                  "section": {
                     "type": "string",
                     "description": "The section id that discount belongs to",
                     "example": "6009c0eee65f6dce28fb3e50"
                   },
-                  "categoryId": {
+                  "category": {
                     "type": "string",
                     "description": "The category id that discount belongs to",
                     "example": "6009c0eee65f6dce28fb3e50"
@@ -4977,11 +5170,21 @@
         ],
         "responses": {
           "200": {
-            "description": "Dsicount returned succesfully",
+            "description": "Discount returned succesfully",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Discount"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Unauthorized"
                 }
               }
             }
@@ -5040,8 +5243,9 @@
                     "description": "Name or the description of the discount",
                     "example": "Lorem Beauty Salon"
                   },
-                  "imageFile": {
+                  "discount": {
                     "type": "string",
+                    "description": "image of the discount",
                     "format": "binary"
                   },
                   "disountAmount": {
@@ -5060,12 +5264,12 @@
                     "format": "date-time",
                     "example": "2017-07-21T17:32:28Z"
                   },
-                  "sectionId": {
+                  "section": {
                     "type": "string",
                     "description": "The section id that discount belongs to",
                     "example": "6009c0eee65f6dce28fb3e50"
                   },
-                  "categoryId": {
+                  "categoty": {
                     "type": "string",
                     "description": "The category id that discount belongs to",
                     "example": "6009c0eee65f6dce28fb3e50"
@@ -5473,7 +5677,7 @@
                   },
                   "locationId": {
                     "type": "string",
-                    "description": "Id of the language",
+                    "description": "Id of the location",
                     "example": "6009c0eee65f6dce28fb3e50"
                   }
                 },
@@ -5566,7 +5770,7 @@
                 "properties": {
                   "languageId": {
                     "type": "string",
-                    "description": "Id of the language",
+                    "description": "Id of the location",
                     "example": "6009c0eee65f6dce28fb3e50"
                   },
                   "locationId": {
@@ -5700,7 +5904,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PersonalInfo"
+                  "$ref": "#/components/schemas/Profile"
                 }
               }
             }
@@ -5756,7 +5960,6 @@
                 "properties": {
                   "email": {
                     "type": "string",
-                    "description": "Name of the category",
                     "example": "test@example.com"
                   },
                   "firstname": {
@@ -5777,8 +5980,9 @@
                     "format": "date",
                     "example": "2017-07-21"
                   },
-                  "image": {
+                  "avatar": {
                     "type": "string",
+                    "description": "photo of the user",
                     "format": "binary"
                   },
                   "aboutMe": {
@@ -5796,7 +6000,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PersonalInfo"
+                  "$ref": "#/components/schemas/Profile"
                 }
               }
             }
@@ -5861,7 +6065,6 @@
                 "properties": {
                   "email": {
                     "type": "string",
-                    "description": "Name of the category",
                     "example": "test@example.com"
                   },
                   "firstname": {
@@ -5882,8 +6085,9 @@
                     "format": "date",
                     "example": "2017-07-21"
                   },
-                  "image": {
+                  "avatar": {
                     "type": "string",
+                    "description": "photo of the user",
                     "format": "binary"
                   },
                   "aboutMe": {
@@ -5901,7 +6105,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PersonalInfo"
+                  "$ref": "#/components/schemas/Profile"
                 }
               }
             }

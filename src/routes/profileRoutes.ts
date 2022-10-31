@@ -25,5 +25,17 @@ export const profileRoutes: RouteOption[] = [
                 '^/profiles/:profileId': '/profiles/:profileId'
             }
         }
+    },
+    {
+        url: '/profile-images/*.(png|jpg|jpeg)$/',
+        auth: true,
+        options: {
+            target: `${profilesServiceUri}`,
+            changeOrigin: true,
+            pathRewrite: {
+                '^/profile-images/*.(png|jpg|jpeg)$/':
+                    '/profile-images/*.(png|jpg|jpeg)$/'
+            }
+        }
     }
 ]
