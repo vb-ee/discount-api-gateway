@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken'
+import * as jwt from 'jsonwebtoken'
 import { accessEnv } from './accessEnvs'
 
 export interface IJwtPayload {
