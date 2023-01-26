@@ -25,41 +25,5 @@ export const discountRoutes: RouteOption[] = [
                 '^/discounts/:discountId': '/discounts/:discountId'
             }
         }
-    },
-    {
-        url: '/categories/:categoryId/discounts',
-        auth: true,
-        options: {
-            target: `${discountsServiceUri}`,
-            changeOrigin: true,
-            pathRewrite: {
-                '^/categories/:categoryId/discounts':
-                    '/categories/:categoryId/discounts'
-            }
-        }
-    },
-    {
-        url: '/sections/:sectionId/discounts',
-        auth: true,
-        options: {
-            target: `${discountsServiceUri}`,
-            changeOrigin: true,
-            pathRewrite: {
-                '^/sections/:sectionId/discounts':
-                    '/sections/:sectionId/discounts'
-            }
-        }
-    },
-    {
-        url: '/discount-images/*.(png|jpg|jpeg)$/',
-        auth: true,
-        options: {
-            target: `${discountsServiceUri}`,
-            changeOrigin: true,
-            pathRewrite: {
-                '^/discount-images/*.(png|jpg|jpeg)$/':
-                    '/discount-images/*.(png|jpg|jpeg)$/'
-            }
-        }
     }
 ]

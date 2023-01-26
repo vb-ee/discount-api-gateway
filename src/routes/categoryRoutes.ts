@@ -1,14 +1,14 @@
 import { accessEnv } from '../utils'
 import { RouteOption } from './RouteOption'
 
-const categoriesServiceUri = accessEnv('CATEGORIES_SERVICE_URI')
+const discountsServiceUri = accessEnv('DISCOUNTS_SERVICE_URI')
 
 export const categoryRoutes: RouteOption[] = [
     {
         url: '/categories',
         auth: true,
         options: {
-            target: `${categoriesServiceUri}`,
+            target: `${discountsServiceUri}`,
             changeOrigin: true,
             pathRewrite: {
                 '^/categories': '/categories'
@@ -19,7 +19,7 @@ export const categoryRoutes: RouteOption[] = [
         url: '/categories/:categoryId',
         auth: true,
         options: {
-            target: `${categoriesServiceUri}`,
+            target: `${discountsServiceUri}`,
             changeOrigin: true,
             pathRewrite: {
                 '^/categories/:categoryId': '/categories/:categoryId'
@@ -27,14 +27,14 @@ export const categoryRoutes: RouteOption[] = [
         }
     },
     {
-        url: '/category-images/*.(png|jpg|jpeg)$/',
+        url: '/categories/:categoryId/discounts',
         auth: true,
         options: {
-            target: `${categoriesServiceUri}`,
+            target: `${discountsServiceUri}`,
             changeOrigin: true,
             pathRewrite: {
-                '^/category-images/*.(png|jpg|jpeg)$/':
-                    '/category-images/*.(png|jpg|jpeg)$/'
+                '^/categories/:categoryId/discounts':
+                    '/categories/:categoryId/discounts'
             }
         }
     }

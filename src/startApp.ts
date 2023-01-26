@@ -15,7 +15,8 @@ import {
     sectionRoutes,
     discountRoutes,
     meRoutes,
-    meProfileRoutes
+    meProfileRoutes,
+    imageRoutes
 } from './routes'
 import { accessEnv } from './utils'
 import swaggerUi from 'swagger-ui-express'
@@ -33,7 +34,8 @@ const routeConfigs = [
     ...sectionRoutes,
     ...discountRoutes,
     ...meRoutes,
-    ...meProfileRoutes
+    ...meProfileRoutes,
+    ...imageRoutes
 ]
 const port = parseInt(accessEnv('PORT', '8080'))
 
