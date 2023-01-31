@@ -18,7 +18,7 @@ import {
     meProfileRoutes,
     imageRoutes
 } from './routes'
-import { accessEnv } from './utils'
+import { accessEnv } from '@payhasly-discount/common'
 import swaggerUi from 'swagger-ui-express'
 import swaggerDoc from './openapi.json'
 

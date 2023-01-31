@@ -1,4 +1,4 @@
-import { accessEnv } from '../utils/accessEnvs'
+import { accessEnv } from '@payhasly-discount/common'
 import { RouteOption } from './RouteOption'
 
 const usersServiceUri = accessEnv('USERS_SERVICE_URI')
@@ -40,7 +40,6 @@ export const authRoutes: RouteOption[] = [
     {
         url: '/token',
         auth: false,
-        authRefresh: true,
         options: {
             target: `${usersServiceUri}`,
             changeOrigin: true,

@@ -1,4 +1,4 @@
-import { accessEnv } from '../utils'
+import { accessEnv } from '@payhasly-discount/common'
 import { RouteOption } from './RouteOption'
 
 const usersServiceUri = accessEnv('USERS_SERVICE_URI')

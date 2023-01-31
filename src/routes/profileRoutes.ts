@@ -1,4 +1,4 @@
-import { accessEnv } from '../utils'
+import { accessEnv } from '@payhasly-discount/common'
 import { RouteOption } from './RouteOption'
 
 const profilesServiceUri = accessEnv('PROFILES_SERVICE_URI')
@@ -23,18 +23,6 @@ export const profileRoutes: RouteOption[] = [
             changeOrigin: true,
             pathRewrite: {
                 '^/profiles/:profileId': '/profiles/:profileId'
-            }
-        }
-    },
-    {
-        url: '/profile-images/*.(png|jpg|jpeg)$/',
-        auth: true,
-        options: {
-            target: `${profilesServiceUri}`,
-            changeOrigin: true,
-            pathRewrite: {
-                '^/profile-images/*.(png|jpg|jpeg)$/':
-                    '/profile-images/*.(png|jpg|jpeg)$/'
             }
         }
     }

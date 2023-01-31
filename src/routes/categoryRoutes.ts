@@ -1,4 +1,4 @@
-import { accessEnv } from '../utils'
+import { accessEnv } from '@payhasly-discount/common'
 import { RouteOption } from './RouteOption'
 
 const discountsServiceUri = accessEnv('DISCOUNTS_SERVICE_URI')
@@ -6,7 +6,7 @@ const discountsServiceUri = accessEnv('DISCOUNTS_SERVICE_URI')
 export const categoryRoutes: RouteOption[] = [
     {
         url: '/categories',
-        auth: true,
+        auth: false,
         options: {
             target: `${discountsServiceUri}`,
             changeOrigin: true,
@@ -17,7 +17,7 @@ export const categoryRoutes: RouteOption[] = [
     },
     {
         url: '/categories/:categoryId',
-        auth: true,
+        auth: false,
         options: {
             target: `${discountsServiceUri}`,
             changeOrigin: true,
@@ -28,7 +28,7 @@ export const categoryRoutes: RouteOption[] = [
     },
     {
         url: '/categories/:categoryId/discounts',
-        auth: true,
+        auth: false,
         options: {
             target: `${discountsServiceUri}`,
             changeOrigin: true,

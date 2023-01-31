@@ -1,4 +1,4 @@
-import { accessEnv } from '../utils'
+import { accessEnv } from '@payhasly-discount/common'
 import { RouteOption } from './RouteOption'
 
 const imageServiceUri = accessEnv('IMAGE_SERVICE_URI')
@@ -6,7 +6,7 @@ const imageServiceUri = accessEnv('IMAGE_SERVICE_URI')
 export const imageRoutes: RouteOption[] = [
     {
         url: '/images/*.(png|jpg|jpeg)$/',
-        auth: true,
+        auth: false,
         options: {
             target: `${imageServiceUri}`,
             changeOrigin: true,

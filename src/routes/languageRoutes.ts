@@ -1,4 +1,4 @@
-import { accessEnv } from '../utils'
+import { accessEnv } from '@payhasly-discount/common'
 import { RouteOption } from './RouteOption'
 
 const profilesServiceUri = accessEnv('PROFILES_SERVICE_URI')
@@ -6,7 +6,7 @@ const profilesServiceUri = accessEnv('PROFILES_SERVICE_URI')
 export const languageRoutes: RouteOption[] = [
     {
         url: '/languages',
-        auth: true,
+        auth: false,
         options: {
             target: `${profilesServiceUri}`,
             changeOrigin: true,
@@ -17,7 +17,7 @@ export const languageRoutes: RouteOption[] = [
     },
     {
         url: '/languages/:languageId',
-        auth: true,
+        auth: false,
         options: {
             target: `${profilesServiceUri}`,
             changeOrigin: true,
