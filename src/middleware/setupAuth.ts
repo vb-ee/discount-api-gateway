@@ -7,7 +7,7 @@ export const setupAuth = (app: Express, routeConfigs: RouteOption[]) => {
         if (route.auth)
             app.use(
                 route.url,
-                authHandler(Tokens.accessToken, ['JWT_ACCESS']),
+                authHandler(Tokens.accessToken, 'JWT_ACCESS'),
                 restrictToAdmin()
             )
     })
