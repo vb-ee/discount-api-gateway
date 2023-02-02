@@ -6,7 +6,7 @@ const usersServiceUri = accessEnv('USERS_SERVICE_URI')
 export const meRoutes: RouteOption[] = [
     {
         url: '/me',
-        auth: true,
+        auth: false,
         options: {
             target: `${usersServiceUri}`,
             changeOrigin: true,

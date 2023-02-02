@@ -6,7 +6,7 @@ const profilesServiceUri = accessEnv('PROFILES_SERVICE_URI')
 export const meProfileRoutes: RouteOption[] = [
     {
         url: '/profile',
-        auth: true,
+        auth: false,
         options: {
             target: `${profilesServiceUri}`,
             changeOrigin: true,
@@ -17,7 +17,7 @@ export const meProfileRoutes: RouteOption[] = [
     },
     {
         url: '/setting',
-        auth: true,
+        auth: false,
         options: {
             target: `${profilesServiceUri}`,
             changeOrigin: true,
