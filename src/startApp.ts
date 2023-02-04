@@ -12,11 +12,11 @@ import {
     languageRoutes,
     profileRoutes,
     userSettingRoutes,
-    sectionRoutes,
     discountRoutes,
     meRoutes,
     meProfileRoutes,
-    imageRoutes
+    imageRoutes,
+    favoriteRoutes
 } from './routes'
 import { accessEnv } from '@payhasly-discount/common'
 import swaggerUi from 'swagger-ui-express'
@@ -31,11 +31,11 @@ const routeConfigs = [
     ...languageRoutes,
     ...userSettingRoutes,
     ...profileRoutes,
-    ...sectionRoutes,
     ...discountRoutes,
     ...meRoutes,
     ...meProfileRoutes,
-    ...imageRoutes
+    ...imageRoutes,
+    ...favoriteRoutes
 ]
 const port = parseInt(accessEnv('PORT', '8080'))
 

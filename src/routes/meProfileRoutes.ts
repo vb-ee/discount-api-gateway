@@ -25,5 +25,16 @@ export const meProfileRoutes: RouteOption[] = [
                 '^/setting': '/setting'
             }
         }
+    },
+    {
+        url: '/profile-image',
+        auth: false,
+        options: {
+            target: `${profilesServiceUri}`,
+            changeOrigin: true,
+            pathRewrite: {
+                '^/profile-image': '/profile-image'
+            }
+        }
     }
 ]
